@@ -9,7 +9,7 @@ public class JWTCustomSigner {
 
     public JWTCustomSigner() {
         try {
-            signer = new MACSigner("VsYd9LcnTvZibPmAYAnFbxY8mKQ0BFn1Ts392tyjSeKk95JIFsusHGkAnQcwmaci");
+            signer = new MACSigner(JWTSecrets.DEFAULT_SECRET);
         } catch(KeyLengthException e) {
             signer = null;
         }

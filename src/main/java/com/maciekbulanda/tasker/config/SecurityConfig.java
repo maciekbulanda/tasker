@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.authentication.AuthenticationWebFilter;
+import org.springframework.security.web.server.authentication.ServerAuthenticationConverter;
 import org.springframework.security.web.server.authentication.ServerAuthenticationSuccessHandler;
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers;
 import org.springframework.web.server.ServerWebExchange;
@@ -54,13 +55,14 @@ public class SecurityConfig {
     private AuthenticationWebFilter bearerAuthenticationFilter() {
         AuthenticationWebFilter bearerAuthenticationFilter;
         ReactiveAuthenticationManager authManager;
-        Function<ServerWebExchange, Mono<Authentication>> bearerConverter;
+        ServerAuthenticationConverter bearerConverter;
         authManager  = new BearerTokenReactiveAuthenticationManager();
 
         bearerAuthenticationFilter = new AuthenticationWebFilter(authManager);
         bearerConverter = new ServerHttpBearerAuthenticationConverter();
-        bearerAuthenticationFilter.setAuthenticationConverter(bearerConverter);
-        bearerAuthenticationFilter.setRequiresAuthenticationMatcher(ServerWebExchangeMatchers.pathMatchers("/api/**"));        return bearerAuthenticationFilter;
+        bearerAuthenticationFilter.setServerAuthenticationConverter(bearerConverter);
+        bearerAuthenticationFilter.setRequiresAuthenticationMatcher(ServerWebExchangeMatchers.pathMatchers("/api/**"));
+        return bearerAuthenticationFilter;
     }
 
     private AuthenticationWebFilter basicAuthenticationFilter() {

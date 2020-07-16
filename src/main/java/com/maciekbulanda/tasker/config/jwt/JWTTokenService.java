@@ -10,6 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import java.time.Period;
 import java.util.Collection;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 public class JWTTokenService {
     public static String generateToken(String subject, Object credentials, Collection<? extends GrantedAuthority> authorities) {
@@ -22,6 +23,11 @@ public class JWTTokenService {
                         .toInstant()
                         .plus(Period.ofDays(1))
                         .toEpochMilli()))
+                .claim("roles", authorities
+                        .stream()
+                        .map(GrantedAuthority.class::cast)
+                        .map(GrantedAuthority::getAuthority)
+                        .collect(Collectors.joining(",")))
                 .build();
         signedJWT = new SignedJWT(new JWSHeader(JWSAlgorithm.HS256), claimsSet);
         try {

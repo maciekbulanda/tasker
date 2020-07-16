@@ -3,6 +3,7 @@ package com.maciekbulanda.tasker.config.auth;
 import com.nimbusds.jwt.SignedJWT;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import reactor.core.publisher.Mono;
 
@@ -20,20 +21,19 @@ import java.util.stream.Stream;
 public class UsernamePasswordAuthenticationBearer {
 
     public static Mono<Authentication> create(SignedJWT signedJWTMono) {
-        SignedJWT signedJWT = signedJWTMono;
         String subject;
         String auths;
 
-        List authorities;
+        List<GrantedAuthority> authorities;
 
         try {
-            subject = signedJWT.getJWTClaimsSet().getSubject();
-            auths = (String) signedJWT.getJWTClaimsSet().getClaim("roles");
+            subject = signedJWTMono.getJWTClaimsSet().getSubject();
+            auths = (String) signedJWTMono.getJWTClaimsSet().getClaim("roles");
         } catch (ParseException e) {
             return Mono.empty();
         }
         authorities = Stream.of(auths.split(","))
-                .map(a -> new SimpleGrantedAuthority(a))
+                .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
 
             return  Mono.justOrEmpty(new UsernamePasswordAuthenticationToken(subject, null, authorities));
