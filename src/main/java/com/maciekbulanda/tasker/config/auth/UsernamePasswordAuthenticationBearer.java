@@ -23,6 +23,7 @@ public class UsernamePasswordAuthenticationBearer {
         SignedJWT signedJWT = signedJWTMono;
         String subject;
         String auths;
+
         List authorities;
 
         try {
