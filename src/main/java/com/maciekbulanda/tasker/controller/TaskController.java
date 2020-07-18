@@ -12,6 +12,6 @@ public class TaskController {
 
     @GetMapping
     Flux<Task> getTasks() {
-        return Flux.fromArray(new Task[] {new Task(null, "task")});
+        return Flux.fromArray(new Task[] {new Task("1", "task")});
     }
 }

@@ -30,7 +30,7 @@ public class SecurityConfig {
         UserDetails user = User.withDefaultPasswordEncoder()
                 .username("user")
                 .password("password")
-                .roles("USER")
+                .roles("USER","ADMIN")
                 .build();
         return new MapReactiveUserDetailsService(user);
     }
