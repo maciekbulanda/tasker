@@ -1,24 +1,15 @@
-import React from 'react';
+import React, {Fragment} from 'react';
+import Header from "./Layout/Header/Header";
+import Content from "./Layout/Content/Content";
 import './App.css';
 
 function App() {
-  return (
-    <div >
-      <header>
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <Fragment>
+            <Header/>
+            <Content/>
+        </Fragment>
+    );
 }
 
 export default App;

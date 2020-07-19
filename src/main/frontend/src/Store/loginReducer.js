@@ -2,6 +2,7 @@ import * as actions from "./actions";
 
 const initState = {
     userLoggedIn: null,
+    token: "",
     userExpires: null
 };
 

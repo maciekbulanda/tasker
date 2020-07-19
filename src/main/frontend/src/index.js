@@ -5,6 +5,7 @@ import App from './App';
 import {createStore, combineReducers} from 'redux';
 import {reducer as loginReducer} from "./Store/loginReducer"
 import {Provider} from "react-redux";
+import {BrowserRouter} from "react-router-dom";
 import * as serviceWorker from './serviceWorker';
 
 const combinedReducer = combineReducers({
@@ -15,9 +16,11 @@ const store = createStore(combinedReducer, window.__REDUX_DEVTOOLS_EXTENSION__ &
 
 ReactDOM.render(
     <Provider store={store}>
-        <React.StrictMode>
-            <App/>
-        </React.StrictMode>
+        <BrowserRouter>
+            <React.StrictMode>
+                <App/>
+            </React.StrictMode>
+        </BrowserRouter>
     </Provider>,
     document.getElementById('root')
 );
