@@ -2,9 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import {createStore, combineReducers} from 'redux';
+import {createStore, combineReducers, applyMiddleware, compose} from 'redux';
 import {reducer as loginReducer} from "./Store/loginReducer"
 import {Provider} from "react-redux";
+import thunk from "redux-thunk";
 import {BrowserRouter} from "react-router-dom";
 import * as serviceWorker from './serviceWorker';
 
@@ -12,7 +13,10 @@ const combinedReducer = combineReducers({
     login: loginReducer
 });
 
-const store = createStore(combinedReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(combinedReducer,
+    composeEnhancers(applyMiddleware(thunk)));
 
 ReactDOM.render(
     <Provider store={store}>

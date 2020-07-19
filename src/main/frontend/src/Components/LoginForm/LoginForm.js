@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {connect} from "react-redux";
 import classes from "./LoginForm.module.css";
+import * as actions from "../../Store/actions"
 
 const LoginForm = (props) => {
     let [user, setUser] = useState("");
@@ -18,7 +19,7 @@ const LoginForm = (props) => {
         <div>
             <input onChange={onUserChange} className={classes.user} type={"text"} placeholder={"użytkownik"} value={user}/>
             <input onChange={onPassChange} className={classes.pass} type={"password"} placeholder={"hasło"} value={pass}/>
-            <button>Wyślij</button>
+            <button onClick={props.onSubmit}>Wyślij</button>
         </div>
     )
 }
@@ -31,8 +32,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-
+        onSubmit: () => dispatch(actions.startLogin())
     }
 }
 
-export default connect(mapStateToProps)(LoginForm);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
