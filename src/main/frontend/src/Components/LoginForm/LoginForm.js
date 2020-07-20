@@ -16,7 +16,8 @@ const LoginForm = (props) => {
     }
 
     return (
-        <div>
+        <div className={classes.loginForm}>
+            {props.login.loginError? <div className={classes.error}>Błąd logowania</div>: null}
             <input onChange={onUserChange} className={classes.user} type={"text"} placeholder={"użytkownik"} value={user}/>
             <input onChange={onPassChange} className={classes.pass} type={"password"} placeholder={"hasło"} value={pass}/>
             <button onClick={props.onSubmit}>Wyślij</button>

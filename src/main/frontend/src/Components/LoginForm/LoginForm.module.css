@@ -1,3 +1,21 @@
+.loginForm {
+    flex: 3 150px;
+    padding: 0 50px;
+}
+
 .user, .pass {
+    box-sizing: border-box;
     display: block;
+    width: 100%;
+}
+
+input {
+    font-size: inherit;
+    padding: 5px;
+    margin: 5px 0;
+}
+.error {
+    padding: 5px;
+    box-sizing: border-box;
+    border: 1px solid red;
 }
