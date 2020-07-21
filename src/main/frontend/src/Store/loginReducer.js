@@ -32,6 +32,14 @@ export const reducer = (state = initState, action) => {
                 token: "",
                 loginExpires: 0
             };
+        case actions.USER_LOGOUT:
+            return {
+                loginProcess: false,
+                loginError: false,
+                userLoggedIn: "",
+                token: "",
+                loginExpires: 0
+            }
         default:
             return state;
     }

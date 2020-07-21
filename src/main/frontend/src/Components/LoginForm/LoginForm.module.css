@@ -10,12 +10,17 @@
 }
 
 input {
+    outline: none;
+    border: 1px solid gray;
+    border-radius: 5px;
     font-size: inherit;
-    padding: 5px;
-    margin: 5px 0;
+    padding: 8px;
+    margin: 8px 0;
 }
 .error {
-    padding: 5px;
+    border-radius: 5px;
+    padding: 8px;
+    background-color: lightpink;
     box-sizing: border-box;
     border: 1px solid red;
 }

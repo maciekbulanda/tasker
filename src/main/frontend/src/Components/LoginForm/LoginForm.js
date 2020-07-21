@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {Fragment, useState} from "react";
 import {connect} from "react-redux";
 import classes from "./LoginForm.module.css";
 import * as actions from "../../Store/actions"
@@ -8,19 +8,29 @@ const LoginForm = (props) => {
     let [pass, setPass] = useState("");
 
     const onUserChange = (event) => {
-        console.log(props.login)
         setUser(event.target.value);
     }
     const onPassChange = (event) => {
         setPass(event.target.value);
     }
 
-    return (
-        <div className={classes.loginForm}>
-            {props.login.loginError? <div className={classes.error}>Błąd logowania</div>: null}
+    let loginControls = (
+        <Fragment>
+            {props.login.loginError ? <div className={classes.error}>Błąd logowania</div> : null}
             <input onChange={onUserChange} className={classes.user} type={"text"} placeholder={"użytkownik"} value={user}/>
             <input onChange={onPassChange} className={classes.pass} type={"password"} placeholder={"hasło"} value={pass}/>
-            <button onClick={props.onSubmit}>Wyślij</button>
+            <button onClick={() => {props.onSubmit(user, pass)}}>Wyślij</button>
+        </Fragment>
+    )
+
+    if (props.login.userLoggedIn !== "")
+        loginControls = (
+            <button onClick={props.onLogout}>Logout</button>
+        )
+
+    return (
+        <div className={classes.loginForm}>
+            {loginControls}
         </div>
     )
 }
@@ -33,7 +43,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onSubmit: () => dispatch(actions.startLogin())
+        onSubmit: (user, pass) => dispatch(actions.startLogin(user, pass)),
+        onLogout: () => dispatch(actions.userLogout())
     }
 }
 

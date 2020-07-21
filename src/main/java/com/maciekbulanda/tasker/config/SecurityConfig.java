@@ -31,8 +31,8 @@ import java.util.function.Function;
 public class SecurityConfig {
     public MapReactiveUserDetailsService userDetailsService() {
         UserDetails user = User.withDefaultPasswordEncoder()
-                .username("user")
-                .password("password")
+                .username("maciek")
+                .password("user567")
                 .roles("USER","ADMIN")
                 .build();
         return new MapReactiveUserDetailsService(user);
@@ -65,7 +65,8 @@ public class SecurityConfig {
         config.addAllowedMethod("PUT");
         config.addAllowedMethod("POST");
         config.addAllowedMethod("DELETE");
-
+        config.addAllowedHeader("Authorization");
+        config.addExposedHeader("Authorization");
         source.registerCorsConfiguration("/**", config);
         return source;
     }
