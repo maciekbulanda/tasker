@@ -6,13 +6,13 @@ export const START_LOGIN = "START_LOGIN";
 export const FAILED_LOGIN = "FAILED_LOGIN";
 export const USER_LOGOUT = "USER_LOGOUT";
 
-export const startLogin = (username, password) => dispatch => {
+export const startLogin = (username, password, history) => dispatch => {
     axios.get("/login", {auth: {username: username, password: password}}).then(response => {
+        history.push("/");
         let token = response.headers.authorization.slice(7);
         let decoded = jwtDecode(token);
         return dispatch(userLogin(username, token, decoded.exp));
     }).catch(err => dispatch(failedLogin()));
-    console.log("startLogin");
 }
 
 const userLogin = (login, token, expires) => {
@@ -20,7 +20,6 @@ const userLogin = (login, token, expires) => {
 }
 
 const failedLogin = () => {
-    console.log("Error login");
     return {type: FAILED_LOGIN};
 }
 

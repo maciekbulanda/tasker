@@ -2,7 +2,6 @@
     box-sizing: border-box;
     width: 100%;
     height: 40px;
-    padding: 10px;
     background-color: gray;
     margin-bottom: 10px;
 }
@@ -14,5 +13,19 @@
 }
 
 .header li {
+    margin: 0 10px;
     float: left;
+}
+
+.header a {
+    margin-top: 4px;
+    padding: 7px;
+    display: block;
+    box-sizing: border-box;
+    color: white;
+    text-decoration: none;
+}
+.header a:hover,
+.header a:active {
+    border-bottom: 4px solid white;
 }

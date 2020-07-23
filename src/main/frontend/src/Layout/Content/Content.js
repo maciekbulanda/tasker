@@ -1,15 +1,18 @@
 import React from "react";
-import Sidebar from "../Sidebar/Sidebar";
+import HomePage from "../HomePage/HomePage"
 import LoginForm from "../../Components/LoginForm/LoginForm";
 import classes from "./Content.module.css"
 import {connect} from "react-redux";
+import {Switch, Route} from "react-router-dom";
 
 const Content = (props) => {
 
     return (
         <div className={classes.content}>
-            <Sidebar/>
-            <LoginForm/>
+            <Switch>
+                <Route path={"/login"}><LoginForm/></Route>
+                <Route path={"/"}><HomePage/></Route>
+            </Switch>
         </div>
     );
 }
