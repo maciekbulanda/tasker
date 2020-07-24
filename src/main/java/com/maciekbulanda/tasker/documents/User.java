@@ -15,6 +15,7 @@ import java.util.Collection;
 public class User implements UserDetails {
 
     @Id
+    private String id;
     private String username;
     private String password;
     private boolean enabled;

@@ -3,6 +3,8 @@ package com.maciekbulanda.tasker.config;
 import com.maciekbulanda.tasker.config.auth.BasicAuthenticationSuccessHandler;
 import com.maciekbulanda.tasker.config.auth.BearerTokenReactiveAuthenticationManager;
 import com.maciekbulanda.tasker.config.auth.ServerHttpBearerAuthenticationConverter;
+import com.maciekbulanda.tasker.services.MyUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager;
@@ -13,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.MapReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.authentication.AuthenticationWebFilter;
 import org.springframework.security.web.server.authentication.ServerAuthenticationConverter;
@@ -29,22 +32,32 @@ import java.util.function.Function;
 
 @EnableWebFluxSecurity
 public class SecurityConfig {
-    public MapReactiveUserDetailsService userDetailsService() {
-        UserDetails user = User.withDefaultPasswordEncoder()
-                .username("maciek")
-                .password("user567")
-                .roles("USER","ADMIN")
-                .build();
-        return new MapReactiveUserDetailsService(user);
+
+    private final MyUserDetailsService myUserDetailsService;
+
+    public SecurityConfig(MyUserDetailsService myUserDetailsService) {
+        this.myUserDetailsService = myUserDetailsService;
     }
+
+//    public MapReactiveUserDetailsService userDetailsService() {
+//        UserDetails user = User.withDefaultPasswordEncoder()
+//                .username("maciek")
+//                .password("user567")
+//                .roles("USER","ADMIN")
+//                .build();
+//
+//
+//        return new MapReactiveUserDetailsService(user);
+//    }
 
     @Bean
     SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
         http
                 .cors().configurationSource(createCorsConfigSource()).and()
                 .authorizeExchange()
-                .pathMatchers("/login")
+                .pathMatchers("/login", "/users")
                 .authenticated()
+//                .permitAll()
                 .and()
                 .addFilterAt(basicAuthenticationFilter(), SecurityWebFiltersOrder.HTTP_BASIC)
                 .authorizeExchange()
@@ -85,11 +98,13 @@ public class SecurityConfig {
     }
 
     private AuthenticationWebFilter basicAuthenticationFilter() {
+
         AuthenticationWebFilter basicAuthenticationFilter;
         UserDetailsRepositoryReactiveAuthenticationManager authManager;
         ServerAuthenticationSuccessHandler successHandler;
 
-        authManager = new UserDetailsRepositoryReactiveAuthenticationManager(userDetailsService());
+        authManager = new UserDetailsRepositoryReactiveAuthenticationManager(myUserDetailsService);
+        authManager.setPasswordEncoder(new BCryptPasswordEncoder());
         successHandler = new BasicAuthenticationSuccessHandler();
 
         basicAuthenticationFilter = new AuthenticationWebFilter(authManager);
