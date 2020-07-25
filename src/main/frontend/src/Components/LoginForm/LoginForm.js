@@ -33,7 +33,7 @@ const LoginForm = (props) => {
         let date = new Date(props.login.loginExpires*1000);
         loginControls = (
             <Fragment>
-                <div>Użytkownik {props.login.userLoggedIn} zalogowany do {date.toLocaleTimeString()} {date.toLocaleDateString()}</div>
+                <div className={classes.info}>Użytkownik {props.login.userLoggedIn} zalogowany do {date.toLocaleTimeString()} {date.toLocaleDateString()}</div>
                 <button onClick={props.onLogout}>Logout</button>
             </Fragment>
         )

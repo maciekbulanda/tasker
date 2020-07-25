@@ -6,8 +6,8 @@ const Header = props => {
     return (
         <div className={classes.header}>
             <ul>
-                <li><NavLink to={"/"}>Home</NavLink></li>
-                <li><NavLink to={"/login"}>Login</NavLink></li>
+                <li><NavLink exact to={"/"} activeClassName={classes.active}>Home</NavLink></li>
+                <li><NavLink exact to={"/login"} activeClassName={classes.active}>Login</NavLink></li>
             </ul>
         </div>
     )

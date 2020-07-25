@@ -1,6 +1,7 @@
-package com.maciekbulanda.tasker.repository;
+package com.maciekbulanda.tasker.services;
 
 import com.maciekbulanda.tasker.documents.User;
+import com.maciekbulanda.tasker.repository.UserRepository;
 import org.reactivestreams.Publisher;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Sort;
@@ -9,11 +10,11 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Repository
-public class UserRepositoryImp implements UserRepository {
+public class UserService implements UserRepository {
 
     private final UserRepository userRepository;
 
-    public UserRepositoryImp(UserRepository userRepository) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

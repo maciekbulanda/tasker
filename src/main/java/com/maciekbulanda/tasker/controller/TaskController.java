@@ -12,6 +12,8 @@ import reactor.core.publisher.Flux;
 @RequestMapping(value = "/api/tasks")
 public class TaskController {
 
+    private final
+
     @GetMapping
     Flux<Task> getTasks() {
         return Flux.fromArray(new Task[] {new Task("1", "task")});

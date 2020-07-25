@@ -104,7 +104,6 @@ public class SecurityConfig {
         ServerAuthenticationSuccessHandler successHandler;
 
         authManager = new UserDetailsRepositoryReactiveAuthenticationManager(myUserDetailsService);
-        authManager.setPasswordEncoder(new BCryptPasswordEncoder());
         successHandler = new BasicAuthenticationSuccessHandler();
 
         basicAuthenticationFilter = new AuthenticationWebFilter(authManager);

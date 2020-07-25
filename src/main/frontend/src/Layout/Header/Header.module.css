@@ -26,6 +26,6 @@
     text-decoration: none;
 }
 .header a:hover,
-.header a:active {
+.active {
     border-bottom: 4px solid white;
 }
