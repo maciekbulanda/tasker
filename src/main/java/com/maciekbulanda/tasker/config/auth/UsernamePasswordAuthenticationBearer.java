@@ -9,6 +9,7 @@ import reactor.core.publisher.Mono;
 
 import java.text.ParseException;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -33,10 +34,15 @@ public class UsernamePasswordAuthenticationBearer {
             return Mono.empty();
         }
         authorities = Stream.of(auths.split(","))
+                .filter(UsernamePasswordAuthenticationBearer::notNull)
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
 
             return  Mono.justOrEmpty(new UsernamePasswordAuthenticationToken(subject, null, authorities));
 
+    }
+
+    private static boolean notNull(String a) {
+        return a != null && !a.equals("");
     }
 }

@@ -1,6 +1,7 @@
 package com.maciekbulanda.tasker.controller;
 
 import com.maciekbulanda.tasker.documents.Task;
+import com.maciekbulanda.tasker.services.TaskService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,10 +13,14 @@ import reactor.core.publisher.Flux;
 @RequestMapping(value = "/api/tasks")
 public class TaskController {
 
-    private final
+    private final TaskService taskService;
+
+    public TaskController(TaskService taskService) {
+        this.taskService = taskService;
+    }
 
     @GetMapping
     Flux<Task> getTasks() {
-        return Flux.fromArray(new Task[] {new Task("1", "task")});
+        return taskService.findAll();
     }
 }
