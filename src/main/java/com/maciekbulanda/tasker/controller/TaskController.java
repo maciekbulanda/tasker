@@ -26,4 +26,14 @@ public class TaskController {
     Mono<Task> insertNewTask(@RequestBody Task newTask) {
         return taskService.insert(newTask);
     }
+
+    @PutMapping
+    Mono<Task> updateTask(@RequestBody Task task) {
+        return taskService.save(task);
+    }
+
+    @DeleteMapping
+    Mono<Void> deleteTask(@RequestParam String id) {
+        return taskService.deleteById(id);
+    }
 }
