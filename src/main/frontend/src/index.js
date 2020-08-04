@@ -4,13 +4,15 @@ import './index.css';
 import App from './App';
 import {createStore, combineReducers, applyMiddleware, compose} from 'redux';
 import {reducer as loginReducer} from "./Store/loginReducer"
+import {reducer as taskReducer} from "./Store/tasksReducer"
 import {Provider} from "react-redux";
 import thunk from "redux-thunk";
 import {BrowserRouter} from "react-router-dom";
 import * as serviceWorker from './serviceWorker';
 
 const combinedReducer = combineReducers({
-    login: loginReducer
+    login: loginReducer,
+    tasks: taskReducer
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

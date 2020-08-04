@@ -7,12 +7,14 @@ export const FAILED_LOGIN = "FAILED_LOGIN";
 export const USER_LOGOUT = "USER_LOGOUT";
 
 export const startLogin = (username, password, history) => dispatch => {
-    axios.get("/login", {auth: {username: username, password: password}}).then(response => {
-        history.push("/");
-        let token = response.headers.authorization.slice(7);
-        let decoded = jwtDecode(token);
-        return dispatch(userLogin(username, token, decoded.exp));
-    }).catch(err => dispatch(failedLogin()));
+    axios.get("/login", {auth: {username: username, password: password}})
+        .then(response => {
+            history.push("/");
+            let token = response.headers.authorization.slice(7);
+            let decoded = jwtDecode(token);
+            return dispatch(userLogin(username, token, decoded.exp));
+        })
+        .catch(err => dispatch(failedLogin()));
 }
 
 const userLogin = (login, token, expires) => {

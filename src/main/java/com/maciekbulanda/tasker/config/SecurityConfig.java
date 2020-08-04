@@ -39,21 +39,11 @@ public class SecurityConfig {
         this.myUserDetailsService = myUserDetailsService;
     }
 
-//    public MapReactiveUserDetailsService userDetailsService() {
-//        UserDetails user = User.withDefaultPasswordEncoder()
-//                .username("maciek")
-//                .password("user567")
-//                .roles("USER","ADMIN")
-//                .build();
-//
-//
-//        return new MapReactiveUserDetailsService(user);
-//    }
-
     @Bean
     SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
         http
                 .cors().configurationSource(createCorsConfigSource()).and()
+                .csrf().disable()
                 .authorizeExchange()
                 .pathMatchers("/login", "/users")
                 .authenticated()
