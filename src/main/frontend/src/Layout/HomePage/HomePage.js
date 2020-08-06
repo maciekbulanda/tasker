@@ -1,9 +1,14 @@
-import React from "react";
+import React, {Fragment} from "react";
 import Sidebar from "../Sidebar/Sidebar";
+import TaskList from "../../Components/TaskList/TaskList";
 
 const HomePage = () => {
     return (
-        <Sidebar/>
+        <Fragment>
+            <Sidebar/>
+            <TaskList/>
+        </Fragment>
+
     )
 }
 

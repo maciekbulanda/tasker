@@ -1,0 +1,7 @@
+.taskList {
+    width: 100px;
+    padding: 0 10px;
+    flex-shrink: 1;
+    flex-grow: 0;
+    flex-basis: 150px;
+}
