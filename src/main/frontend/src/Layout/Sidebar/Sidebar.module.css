@@ -1,5 +1,5 @@
 .sidebar {
     width: 100px;
-    flex: 0.5 1 150px;
+    flex: 0 1 150px;
     padding: 0 10px;
 }

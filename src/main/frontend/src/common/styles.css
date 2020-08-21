@@ -1,0 +1,12 @@
+body {
+    color: #333;
+}
+a.normal {
+    text-decoration: none;
+    color: inherit;
+}
+
+a.normal:hover {
+    color: #0947b3;
+    text-decoration: underline;
+}

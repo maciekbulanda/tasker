@@ -11,7 +11,7 @@ const Content = (props) => {
         <div className={classes.content}>
             <Switch>
                 <Route path={"/login"}><LoginForm/></Route>
-                <Route path={"/"}><HomePage/></Route>
+                <Route path={"/"}><HomePage username={props.login.userLoggedIn}/></Route>
             </Switch>
         </div>
     );
