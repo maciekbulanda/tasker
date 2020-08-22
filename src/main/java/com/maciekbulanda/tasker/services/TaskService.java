@@ -5,17 +5,23 @@ import com.maciekbulanda.tasker.repository.TaskRepository;
 import org.reactivestreams.Publisher;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.Set;
 
 @Service
 public class TaskService implements TaskRepository {
 
     private final TaskRepository taskRepository;
 
-    public TaskService(TaskRepository taskRepository) {
+    private final ReactiveMongoTemplate reactiveMongoTemplate;
+
+    public TaskService(TaskRepository taskRepository, ReactiveMongoTemplate reactiveMongoTemplate) {
         this.taskRepository = taskRepository;
+        this.reactiveMongoTemplate = reactiveMongoTemplate;
     }
 
     @Override
@@ -146,5 +152,9 @@ public class TaskService implements TaskRepository {
     @Override
     public Mono<Void> deleteAll() {
         return taskRepository.deleteAll();
+    }
+
+    public Flux<String> findAllTagsDistinct() {
+        return reactiveMongoTemplate.findDistinct("tags", Task.class, String.class);
     }
 }

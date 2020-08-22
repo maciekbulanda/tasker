@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping(value = "/api/tasks")
@@ -35,5 +37,10 @@ public class TaskController {
     @DeleteMapping
     Mono<Void> deleteTask(@RequestParam String id) {
         return taskService.deleteById(id);
+    }
+
+    @GetMapping(value = "/tags")
+    Mono<List<String>> getAllTags() {
+        return taskService.findAllTagsDistinct().collectList();
     }
 }

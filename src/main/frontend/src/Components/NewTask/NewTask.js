@@ -1,8 +1,11 @@
-import React from "react";
+import React, {useEffect} from "react";
 
 const NewTask = (props) => {
+    useEffect(()=> {
+        console.log("useEffect");
+    })
     return (
-        <div></div>
+        <div>NewTask</div>
     )
 }
 

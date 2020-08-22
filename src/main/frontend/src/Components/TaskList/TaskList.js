@@ -1,9 +1,13 @@
-import React from "react";
+import React, {Fragment} from "react";
 import classes from "./TaskList.module.css";
+import NewTask from "../NewTask/NewTask";
 
 const TaskList = (props) => {
     return (
-        <div className={classes.taskList}>TaskList</div>
+        <Fragment>
+            <div className={classes.taskList}>TaskList</div>
+            <NewTask/>
+        </Fragment>
     )
 }
 
