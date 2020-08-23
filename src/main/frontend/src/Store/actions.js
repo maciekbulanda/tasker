@@ -1,4 +1,4 @@
-import axios from "../common/utils";
+import {myAxios as axios} from "../common/utils";
 import jwtDecode from "jwt-decode";
 
 export const USER_LOGIN = "USER_LOGIN";

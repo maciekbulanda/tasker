@@ -5,8 +5,10 @@ import NewTask from "../NewTask/NewTask";
 const TaskList = (props) => {
     return (
         <Fragment>
-            <div className={classes.taskList}>TaskList</div>
-            <NewTask/>
+            <div className={classes.taskList}>
+                TaskList
+                <NewTask/>
+            </div>
         </Fragment>
     )
 }

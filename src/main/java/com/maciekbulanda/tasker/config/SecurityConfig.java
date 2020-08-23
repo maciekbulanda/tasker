@@ -42,12 +42,12 @@ public class SecurityConfig {
     @Bean
     SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
         http
-                .cors().configurationSource(createCorsConfigSource()).and()
+                .cors().configurationSource(createCorsConfigSource())
+                .and()
                 .csrf().disable()
                 .authorizeExchange()
                 .pathMatchers("/login", "/users")
                 .authenticated()
-//                .permitAll()
                 .and()
                 .addFilterAt(basicAuthenticationFilter(), SecurityWebFiltersOrder.HTTP_BASIC)
                 .authorizeExchange()
@@ -68,7 +68,7 @@ public class SecurityConfig {
         config.addAllowedMethod("PUT");
         config.addAllowedMethod("POST");
         config.addAllowedMethod("DELETE");
-        config.addAllowedHeader("Authorization");
+        config.addAllowedHeader("*");
         config.addExposedHeader("Authorization");
         source.registerCorsConfiguration("/**", config);
         return source;
