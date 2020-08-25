@@ -1,4 +1,7 @@
 .sidebar {
+    display: flex;
+    flex-wrap: wrap;
+    /*justify-content: space-evenly;*/
     width: 100px;
     flex: 0 1 150px;
     padding: 0 10px;
