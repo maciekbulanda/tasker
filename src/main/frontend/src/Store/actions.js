@@ -6,6 +6,7 @@ export const START_LOGIN = "START_LOGIN";
 export const FAILED_LOGIN = "FAILED_LOGIN";
 export const USER_LOGOUT = "USER_LOGOUT";
 export const TOGGLE_FILTER_TAGS = "TOGGLE_FILTER_TAGS";
+export const ADD_TASKS_TO_STORE = "ADD_TASKS_TO_STORE";
 
 export const startLogin = (username, password, history) => dispatch => {
     axios.get("/login", {auth: {username: username, password: password}})
@@ -32,4 +33,8 @@ export const userLogout = () => {
 
 export const toggleFilterTags = (tagName) => {
     return {type: TOGGLE_FILTER_TAGS, name: tagName};
+}
+
+export const addTasksToStore = tasks => {
+    return {type: ADD_TASKS_TO_STORE, tasks: tasks};
 }
