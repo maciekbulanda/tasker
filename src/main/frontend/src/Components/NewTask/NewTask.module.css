@@ -1,0 +1,31 @@
+.button {
+    box-sizing: border-box;
+    display: block;
+    outline: none;
+    border: 1px solid gray;
+    border-radius: 5px;
+    font-size: inherit;
+    padding: 8px;
+    margin: 8px 0;
+    width: 100%;
+    background-color: lightgray;
+    color: black;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.button:hover {
+    background-color: gray;
+    color: white;
+    transition: background-color  0.3s, color 0.3s;
+}
+
+.inputArea {
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: inherit;
+    border-radius: 5px;
+    padding: 8px;
+    margin: 8px 0;
+    width: 100%;
+    resize: vertical;
+}

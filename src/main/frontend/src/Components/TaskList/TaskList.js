@@ -32,8 +32,8 @@ const TaskList = (props) => {
     return (
         <Fragment>
             <div className={classes.taskList}>
-                {tasklist}
                 <NewTask/>
+                {tasklist}
             </div>
         </Fragment>
     )

@@ -13,7 +13,8 @@
 
 input {
     box-sizing: border-box;
-    display: block;    outline: none;
+    display: block;
+    outline: none;
     border: 1px solid gray;
     border-radius: 5px;
     font-size: inherit;

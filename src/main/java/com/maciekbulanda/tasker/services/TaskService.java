@@ -1,16 +1,17 @@
 package com.maciekbulanda.tasker.services;
 
+import com.maciekbulanda.tasker.CountedTag;
 import com.maciekbulanda.tasker.documents.Task;
 import com.maciekbulanda.tasker.repository.TaskRepository;
 import org.reactivestreams.Publisher;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.util.Set;
 
 @Service
 public class TaskService implements TaskRepository {
@@ -152,6 +153,33 @@ public class TaskService implements TaskRepository {
     @Override
     public Mono<Void> deleteAll() {
         return taskRepository.deleteAll();
+    }
+
+    public Flux<CountedTag> findAllTagsWithCounters() {
+        return reactiveMongoTemplate
+                .aggregate(Aggregation.newAggregation(Aggregation.unwind("tags"),
+                        Aggregation.group("tags").count().as("count"),
+                        Aggregation.sort(Sort.Direction.DESC, "count")), Task.class, CountedTag.class);
+    }
+
+    public Flux<CountedTag> finAllTagsWithCountersForGroup(String groupName) {
+        return reactiveMongoTemplate
+                .aggregate(Aggregation.newAggregation(
+                        Aggregation.match(Criteria.where("group").is(groupName)),
+                        Aggregation.unwind("tags"),
+                        Aggregation.group("tags").count().as("count"),
+                        Aggregation.sort(Sort.Direction.DESC, "count")), Task.class, CountedTag.class);
+
+    }
+
+    public Flux<CountedTag> finAllTagsWithCountersForUser(String userName) {
+        return reactiveMongoTemplate
+                .aggregate(Aggregation.newAggregation(
+                        Aggregation.match(Criteria.where("owner").is(userName)),
+                        Aggregation.unwind("tags"),
+                        Aggregation.group("tags").count().as("count"),
+                        Aggregation.sort(Sort.Direction.DESC, "count")), Task.class, CountedTag.class);
+
     }
 
     public Flux<String> findAllTagsDistinct() {

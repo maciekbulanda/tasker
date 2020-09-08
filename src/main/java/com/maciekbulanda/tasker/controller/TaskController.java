@@ -1,11 +1,17 @@
 package com.maciekbulanda.tasker.controller;
 
+import com.maciekbulanda.tasker.CountedTag;
 import com.maciekbulanda.tasker.documents.Task;
 import com.maciekbulanda.tasker.services.TaskService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -40,7 +46,7 @@ public class TaskController {
     }
 
     @GetMapping(value = "/tags")
-    Mono<List<String>> getAllTags() {
-        return taskService.findAllTagsDistinct().collectList();
+    Mono<List<CountedTag>> getAllTags(Principal principal) {
+        return taskService.finAllTagsWithCountersForUser(principal.getName()).collectList();
     }
 }

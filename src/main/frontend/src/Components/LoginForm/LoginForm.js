@@ -17,16 +17,17 @@ const LoginForm = (props) => {
     }
 
     let loginControls = (
-        <Fragment>
+        <form onSubmit={(event) => {
+            props.onLogin(user, pass, history);
+            event.preventDefault();
+        }}>
             {props.login.loginError ? <div className={classes.error}>Błąd logowania</div> : null}
             <input onChange={onUserChange} className={classes.user} type={"text"} placeholder={"użytkownik"}
                    value={user}/>
             <input onChange={onPassChange} className={classes.pass} type={"password"} placeholder={"hasło"}
                    value={pass}/>
-            <input type={"submit"} onClick={() => {
-                props.onLogin(user, pass, history)
-            }}/>
-        </Fragment>
+            <input type={"submit"} />
+        </form>
     )
 
     if (props.login.userLoggedIn !== "") {
