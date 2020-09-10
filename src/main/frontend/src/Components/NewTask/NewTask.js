@@ -1,5 +1,6 @@
 import React, {Fragment, useState} from "react";
 import classes from "./NewTask.module.css";
+import "../../fontello/css/fontello-embedded.css"
 
 
 const NewTask = (props) => {
@@ -8,15 +9,16 @@ const NewTask = (props) => {
     let content = null;
     if (expanded) {
         content = (
-            <form onSubmit={(e) => {
+            <form style={{display: "flex"}} onSubmit={(e) => {
                 e.preventDefault();
             }}>
-                <textarea className={classes.inputArea} placeholder="Zadanie"/>
+                <textarea rows={4} className={classes.inputArea} placeholder="Zadanie"/>
+                <button className={classes.button}><i className="demo-icon icon-plus" style={{fontSize: "2em"}}></i></button>
             </form>
         );
     } else {
         content = (
-            <button className={classes.button} onClick={() => {
+            <button className={[classes.button, classes.fullWidth].join(" ")} onClick={() => {
                 setExpanded(!expanded);
             }}>Nowy</button>
         )

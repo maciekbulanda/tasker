@@ -7,10 +7,13 @@
     font-size: inherit;
     padding: 8px;
     margin: 8px 0;
-    width: 100%;
     background-color: lightgray;
     color: black;
     transition: background-color 0.3s, color 0.3s;
+}
+
+.fullWidth {
+    width: 100%;
 }
 
 .button:hover {
@@ -22,10 +25,10 @@
 .inputArea {
     box-sizing: border-box;
     font-family: inherit;
-    font-size: inherit;
+    font-size: 0.8em;
     border-radius: 5px;
     padding: 8px;
     margin: 8px 0;
-    width: 100%;
+    width: 90%;
     resize: vertical;
 }
