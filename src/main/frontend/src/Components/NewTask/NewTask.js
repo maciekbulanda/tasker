@@ -12,13 +12,21 @@ const addTask = (token, text) => {
             "Authorization": "Bearer " + token
         }
     });
+    let tags = separateTags(text);
 
-    let taskJson = {
-        content: text
+    if (text.length > 0) {
+        let taskJson = {
+            content: text,
+            tags: tags
+        }
+        connection.post("/api/tasks", taskJson).then(()=>{});
     }
+}
 
-    connection.post("/api/tasks", taskJson);
-
+const separateTags = (/*String*/ inputText) => {
+    const pattern = /#(\S+)/g;
+    const tags = inputText.match(new RegExp(pattern));
+    return tags.map(el => el.slice(1));
 }
 const NewTask = (props) => {
     let [expanded, setExpanded] = useState(false);
@@ -34,7 +42,9 @@ const NewTask = (props) => {
                     setText(e.target.value);
                 }} rows={4} className={classes.inputArea} placeholder="Zadanie"/>
                 <button
-                    onClick={() => {addTask(props.login.token, text)}} className={classes.button} style={{marginLeft: "5px"}}>
+                    onClick={() => {
+                        addTask(props.login.token, text)
+                    }} className={classes.button} style={{marginLeft: "5px"}}>
                     <i className="demo-icon icon-plus" style={{fontSize: "2em"}}/>
                 </button>
             </form>
@@ -55,7 +65,7 @@ const NewTask = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        login : state.login
+        login: state.login
     }
 }
 

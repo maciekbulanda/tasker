@@ -31,7 +31,8 @@ public class TaskController {
     }
 
     @PostMapping
-    Mono<Task> insertNewTask(@RequestBody Task newTask) {
+    Mono<Task> insertNewTask(Principal principal, @RequestBody Task newTask) {
+        newTask.setOwner(principal.getName());
         return taskService.insert(newTask);
     }
 

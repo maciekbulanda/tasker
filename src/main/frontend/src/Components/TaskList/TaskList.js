@@ -16,7 +16,6 @@ const TaskList = (props) => {
     });
     useEffect(() => {
         connection.get("/api/tasks").then((response) => {
-            console.log(response);
             props.addTasks(response.data);
         })// eslint-disable-next-line
     },[])
