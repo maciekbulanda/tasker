@@ -6,10 +6,11 @@ import org.reactivestreams.Publisher;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-@Repository
+@Service
 public class UserService implements UserRepository {
 
     private final UserRepository userRepository;

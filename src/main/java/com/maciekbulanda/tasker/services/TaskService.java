@@ -3,6 +3,7 @@ package com.maciekbulanda.tasker.services;
 import com.maciekbulanda.tasker.CountedTag;
 import com.maciekbulanda.tasker.documents.Task;
 import com.maciekbulanda.tasker.repository.TaskRepository;
+import com.maciekbulanda.tasker.repository.UserRepository;
 import org.reactivestreams.Publisher;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Sort;
@@ -17,11 +18,13 @@ import reactor.core.publisher.Mono;
 public class TaskService implements TaskRepository {
 
     private final TaskRepository taskRepository;
+    private final UserRepository userRepository;
 
     private final ReactiveMongoTemplate reactiveMongoTemplate;
 
-    public TaskService(TaskRepository taskRepository, ReactiveMongoTemplate reactiveMongoTemplate) {
+    public TaskService(TaskRepository taskRepository, UserRepository userRepository, ReactiveMongoTemplate reactiveMongoTemplate) {
         this.taskRepository = taskRepository;
+        this.userRepository = userRepository;
         this.reactiveMongoTemplate = reactiveMongoTemplate;
     }
 
@@ -173,13 +176,13 @@ public class TaskService implements TaskRepository {
     }
 
     public Flux<CountedTag> finAllTagsWithCountersForUser(String userName) {
-        return reactiveMongoTemplate
-                .aggregate(Aggregation.newAggregation(
-                        Aggregation.match(Criteria.where("owner").is(userName)),
-                        Aggregation.unwind("tags"),
-                        Aggregation.group("tags").count().as("count"),
-                        Aggregation.sort(Sort.Direction.DESC, "count")), Task.class, CountedTag.class);
-
+        return userRepository.findByUsername(userName)
+                .flatMapMany(user -> reactiveMongoTemplate
+                            .aggregate(Aggregation.newAggregation(
+                                    Aggregation.match(Criteria.where("owner").is(user.getId())),
+                                    Aggregation.unwind("tags"),
+                                    Aggregation.group("tags").count().as("count"),
+                                    Aggregation.sort(Sort.Direction.DESC, "count")), Task.class, CountedTag.class));
     }
 
     public Flux<String> findAllTagsDistinct() {

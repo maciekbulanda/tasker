@@ -26,4 +26,8 @@ public class Task {
     private Set<String> tags;
     private Priority priority;
     private Status status;
+
+    public Task withOwner(String username) {
+        return new Task(this.id, this.content, username, this.assignedPerson, this.group, this.tags, this.priority, this.status);
+    }
 }
