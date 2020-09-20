@@ -30,7 +30,7 @@ public class TaskController {
     }
 
     @GetMapping
-    Flux<Task> getTasks() {
+    Flux<Task> getTasks(Principal principal) {
         return taskService.findAll().flatMap(task -> {
             Optional<String> ownerId = Optional.ofNullable(task.getOwner());
                 return Mono.just(ownerId)

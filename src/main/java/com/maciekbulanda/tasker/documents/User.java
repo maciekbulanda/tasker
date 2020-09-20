@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Set;
 
 @Document
 @NoArgsConstructor
@@ -19,6 +20,7 @@ public class User implements UserDetails {
     private String username;
     private String password;
     private boolean enabled;
+    private Set<String> groups;
 
     public String getId() {
         return id;
@@ -37,6 +39,14 @@ public class User implements UserDetails {
     @Override
     public String getUsername() {
         return username;
+    }
+
+    public Set<String> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(Set<String> groups) {
+        this.groups = groups;
     }
 
     @Override

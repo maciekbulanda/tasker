@@ -158,6 +158,7 @@ public class TaskService implements TaskRepository {
         return taskRepository.deleteAll();
     }
 
+
     public Flux<CountedTag> findAllTagsWithCounters() {
         return reactiveMongoTemplate
                 .aggregate(Aggregation.newAggregation(Aggregation.unwind("tags"),
