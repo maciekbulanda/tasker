@@ -53,8 +53,8 @@ public class TaskController {
         return taskService.save(task);
     }
 
-    @DeleteMapping
-    Mono<Void> deleteTask(@RequestParam String id) {
+    @DeleteMapping("/{id}")
+    Mono<Void> deleteTask(@PathVariable String id) {
         return taskService.deleteById(id);
     }
 

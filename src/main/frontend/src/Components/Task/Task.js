@@ -1,9 +1,33 @@
-import React from "react";
+import React, {useState} from "react";
 import classes from "./Task.module.css"
+import {baseUrl} from "../../common/utils"
+import {connect} from "react-redux";
+import axios from "axios";
 
 const Task = (props) => {
+    let [menuVisible, setMenuVisible] = useState(false);
+    const connection = axios.create({
+        baseURL: baseUrl,
+        headers: {
+            "Authorization": "Bearer " + props.login.token
+        }
+    });
+
+    const toggleMenu = () => {
+        setMenuVisible(!menuVisible);
+    }
+
+    const deleteTask = (event, id) => {
+        connection.delete("/api/tasks/"+ id)
+            .then(() => alert("task removed"));
+    }
+
+    let menu = (<div className={classes.menu}>
+        <button onClick={(event) => {deleteTask(event, props.children.id)}} className={classes.menuitem}>Usuń</button>
+    </div>);
+
     return (
-        <div className={classes.task}>
+        <div onClick={toggleMenu} className={classes.task}>
             <div className={classes.group}>{props.children.group}</div>
             <div className={classes.content}>{props.children.content}</div>
             <div className={classes.owner}>{props.children.owner}</div>
@@ -11,8 +35,16 @@ const Task = (props) => {
             <div className={classes.tags}>{props.children.tags}</div>
             <div className={classes.priority}>{props.children.priority}</div>
             <div className={classes.status}>{props.children.status}</div>
+            {menuVisible? menu : null}
         </div>
     )
 }
 
-export default Task;
+const mapStateToProps = (state) => {
+    return {
+        login: state.login,
+        filterState: state.filter
+    }
+}
+
+export default connect(mapStateToProps)(Task);

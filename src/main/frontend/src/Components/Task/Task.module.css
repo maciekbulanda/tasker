@@ -38,3 +38,12 @@
 .status {
 
 }
+
+.menu {
+    margin-top: 5px;
+    display: flex;
+}
+
+.menuitem {
+    margin-right: 5px;
+}
