@@ -1,26 +1,37 @@
 import React, {useEffect, useState} from "react";
 import classes from "./Sidebar.module.css";
 import * as action from "../../Store/actions"
-import axios from "axios";
 import {connect} from "react-redux";
-import {baseUrl} from "../../common/utils.js";
 import Tag from "../../Components/Tag/Tag";
 
 const Sidebar = (props) => {
-    const connection = axios.create({
-        baseURL: baseUrl,
-        headers: {
-            "Authorization": "Bearer " + props.login.token
-        }
-    });
-
     let [tags, setTags] = useState([]);
 
+    const sort = (/*Object[]*/tmpTags) => {
+        let newTags = tmpTags;
+        return newTags;
+    }
+
     useEffect(() => {
-        connection.get("/api/tasks/tags").then((res) => {
-            setTags(res.data);
-        }) // eslint-disable-next-line
-    }, [])
+        let /*Object[]*/ tmpTags = [];
+        for (const task of props.tasks) {
+            for (const tag of task.tags) {
+                let found = false;
+                for (let i=0; i< tmpTags.length; i++) {
+                    if (tmpTags[i]._id === tag) {
+                        tmpTags[i].count++;
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    tmpTags = tmpTags.concat({"_id" : tag, "count" : 1})
+                }
+            }
+        }
+        setTags(sort(tmpTags));
+
+    }, [props.tasks])
 
     return (
         <div className={classes.sidebar}>{tags.map((val, index) => (<Tag
@@ -33,6 +44,7 @@ const Sidebar = (props) => {
 const mapStateToProps = (state) => {
     return {
         login: state.login,
+        tasks: state.tasks,
         filterState: state.filter
     }
 }

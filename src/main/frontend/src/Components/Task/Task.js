@@ -3,6 +3,7 @@ import classes from "./Task.module.css"
 import {baseUrl} from "../../common/utils"
 import {connect} from "react-redux";
 import axios from "axios";
+import * as actions from "../../Store/actions";
 
 const Task = (props) => {
     let [menuVisible, setMenuVisible] = useState(false);
@@ -19,7 +20,9 @@ const Task = (props) => {
 
     const deleteTask = (event, id) => {
         connection.delete("/api/tasks/"+ id)
-            .then(() => alert("task removed"));
+            .then((response) => {
+                props.removeTask(id);
+            });
     }
 
     let menu = (<div className={classes.menu}>
@@ -47,4 +50,10 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(Task);
+const mapDispatchToProps = dispatch => {
+    return {
+        removeTask : id => dispatch(actions.removeTask(id))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Task);

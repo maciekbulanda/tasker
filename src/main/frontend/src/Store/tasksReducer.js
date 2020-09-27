@@ -7,6 +7,16 @@ export const reducer = (state = initState, action) => {
         case actions.ADD_TASKS_TO_STORE: {
             return action.tasks;
         }
+        case actions.REMOVE_TASK: {
+            let /*Object[]*/ newState = [];
+            for(let i = 0, j = 0; i<state.length; i++  ){
+                if (state[i].id !== action.id) {
+                    newState[j] = state[i];
+                    j++;
+                }
+            }
+            return newState;
+        }
         default: { return state;}
     }
 }
