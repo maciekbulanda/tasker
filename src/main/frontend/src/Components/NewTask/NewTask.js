@@ -3,9 +3,10 @@ import {connect} from "react-redux";
 import classes from "./NewTask.module.css";
 import "../../fontello/css/fontello-embedded.css"
 import axios from "axios";
+import * as actions from "../../Store/actions";
 import {baseUrl} from "../../common/utils";
 
-const addTask = (token, text) => {
+const addTask = (token, text, addTaskFun) => {
     const connection = axios.create({
         baseURL: baseUrl,
         headers: {
@@ -19,7 +20,10 @@ const addTask = (token, text) => {
             content: text,
             tags: tags
         }
-        connection.post("/api/tasks", taskJson).then(()=>{});
+        connection.post("/api/tasks", taskJson).then((response) => {
+            addTaskFun(response.data);
+            console.log(response.data);
+        });
     }
 }
 
@@ -43,7 +47,7 @@ const NewTask = (props) => {
                 }} rows={4} className={classes.inputArea} placeholder="Zadanie"/>
                 <button
                     onClick={() => {
-                        addTask(props.login.token, text)
+                        addTask(props.login.token, text, (task) => {props.addTaskToStore(task)})
                     }} className={classes.button} style={{marginLeft: "5px"}}>
                     <i className="demo-icon icon-plus" style={{fontSize: "2em"}}/>
                 </button>
@@ -69,4 +73,10 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(NewTask);
+const mapDispatchToProps = dispatch => {
+    return {
+        addTaskToStore: task => dispatch(actions.addTask(task))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewTask);

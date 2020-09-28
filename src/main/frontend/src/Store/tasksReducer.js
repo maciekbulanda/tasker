@@ -7,6 +7,9 @@ export const reducer = (state = initState, action) => {
         case actions.ADD_TASKS_TO_STORE: {
             return action.tasks;
         }
+        case actions.ADD_TASK: {
+            return [...state, action.task];
+        }
         case actions.REMOVE_TASK: {
             let /*Object[]*/ newState = [];
             for(let i = 0, j = 0; i<state.length; i++  ){

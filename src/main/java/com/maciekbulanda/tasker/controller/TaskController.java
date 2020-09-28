@@ -45,7 +45,8 @@ public class TaskController {
         return userService
                 .findByUsername(principal.getName())
                 .map(User::getId)
-                .flatMap(id -> taskService.insert(newTask.withOwner(id)));
+                .flatMap(id -> taskService.insert(newTask.withOwner(id)))
+                .map(task -> task.withOwner(principal.getName()));
     }
 
     @PutMapping

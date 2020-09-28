@@ -8,6 +8,7 @@ export const USER_LOGOUT = "USER_LOGOUT";
 export const TOGGLE_FILTER_TAGS = "TOGGLE_FILTER_TAGS";
 export const ADD_TASKS_TO_STORE = "ADD_TASKS_TO_STORE";
 export const REMOVE_TASK = "REMOVE_TASK";
+export const ADD_TASK = "ADD_TASK";
 
 export const startLogin = (username, password, history) => dispatch => {
     axios.get("/login", {auth: {username: username, password: password}})
@@ -42,4 +43,8 @@ export const addTasksToStore = tasks => {
 
 export const removeTask = id => {
     return {type: REMOVE_TASK, id: id};
+}
+
+export const addTask = task => {
+    return {type: ADD_TASK, task: task};
 }

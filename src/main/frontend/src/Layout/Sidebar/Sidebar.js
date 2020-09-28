@@ -7,11 +7,6 @@ import Tag from "../../Components/Tag/Tag";
 const Sidebar = (props) => {
     let [tags, setTags] = useState([]);
 
-    const sort = (/*Object[]*/tmpTags) => {
-        let newTags = tmpTags;
-        return newTags;
-    }
-
     useEffect(() => {
         let /*Object[]*/ tmpTags = [];
         for (const task of props.tasks) {
@@ -29,7 +24,9 @@ const Sidebar = (props) => {
                 }
             }
         }
-        setTags(sort(tmpTags));
+        setTags(tmpTags.sort((a,b) => {
+            return b.count - a.count;
+        }));
 
     }, [props.tasks])
 
