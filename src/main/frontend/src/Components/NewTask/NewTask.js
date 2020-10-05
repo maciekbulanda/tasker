@@ -13,16 +13,15 @@ const addTask = (token, text, addTaskFun) => {
             "Authorization": "Bearer " + token
         }
     });
-    let tags = separateTags(text);
+    let {tags, newText} = separateTags(text);
 
-    if (text.length > 0) {
+    if (newText.length > 0) {
         let taskJson = {
-            content: text,
+            content: newText,
             tags: tags
         }
         connection.post("/api/tasks", taskJson).then((response) => {
             addTaskFun(response.data);
-            console.log(response.data);
         });
     }
 }
@@ -30,8 +29,9 @@ const addTask = (token, text, addTaskFun) => {
 const separateTags = (/*String*/ inputText) => {
     const pattern = /#(\S+)/g;
     const tags = inputText.match(new RegExp(pattern));
-    return tags.map(el => el.slice(1));
+    return {tags: tags.map(el => el.slice(1)), newText: inputText.replace(pattern, "")};
 }
+
 const NewTask = (props) => {
     let [expanded, setExpanded] = useState(false);
     let [text, setText] = useState("");

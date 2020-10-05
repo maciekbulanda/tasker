@@ -7,6 +7,7 @@ const Header = props => {
         <div className={classes.header}>
             <ul>
                 <li><NavLink exact to={"/"} activeClassName={classes.active}>Home</NavLink></li>
+                <li><NavLink exact to={"/user"} activeClassName={classes.active}>Użytkownik</NavLink></li>
                 <li><NavLink exact to={"/login"} activeClassName={classes.active}>Login</NavLink></li>
             </ul>
         </div>

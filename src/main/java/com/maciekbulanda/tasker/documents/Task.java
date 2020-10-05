@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 @Document
@@ -19,6 +20,8 @@ import java.util.Set;
 public class Task {
     @Id
     private String id;
+    private LocalDate addDate;
+    private LocalDate dueDate;
     private String content;
     private String owner;
     private String assignedPerson;
@@ -28,6 +31,15 @@ public class Task {
     private Status status;
 
     public Task withOwner(String username) {
-        return new Task(this.id, this.content, username, this.assignedPerson, this.group, this.tags, this.priority, this.status);
+        return new Task(this.id,
+                this.addDate,
+                this.dueDate,
+                this.content,
+                username,
+                this.assignedPerson,
+                this.group,
+                this.tags,
+                this.priority,
+                this.status);
     }
 }
