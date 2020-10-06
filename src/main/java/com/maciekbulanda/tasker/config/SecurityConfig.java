@@ -6,6 +6,7 @@ import com.maciekbulanda.tasker.config.auth.ServerHttpBearerAuthenticationConver
 import com.maciekbulanda.tasker.services.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
@@ -51,8 +52,9 @@ public class SecurityConfig {
                 .and()
                 .addFilterAt(basicAuthenticationFilter(), SecurityWebFiltersOrder.HTTP_BASIC)
                 .authorizeExchange()
-                .pathMatchers("/api/**")
-                .authenticated()
+                .pathMatchers(HttpMethod.GET,"/api/groups/**").hasRole("USER")
+                .pathMatchers("/api/groups/**").hasRole("ADMIN")
+                .pathMatchers("/api/**").hasRole("USER")
                 .and()
                 .addFilterAt(bearerAuthenticationFilter() , SecurityWebFiltersOrder.AUTHENTICATION);
 

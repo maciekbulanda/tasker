@@ -5,6 +5,9 @@ import com.maciekbulanda.tasker.repository.GroupRepository;
 import org.reactivestreams.Publisher;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -13,9 +16,12 @@ import reactor.core.publisher.Mono;
 public class GroupService implements GroupRepository {
 
     private final GroupRepository groupRepository;
+    private final ReactiveMongoTemplate reactiveMongoTemplate;
 
-    public GroupService(GroupRepository groupRepository) {
+
+    public GroupService(GroupRepository groupRepository, ReactiveMongoTemplate reactiveMongoTemplate) {
         this.groupRepository = groupRepository;
+        this.reactiveMongoTemplate = reactiveMongoTemplate;
     }
 
     @Override
@@ -146,5 +152,10 @@ public class GroupService implements GroupRepository {
     @Override
     public Mono<Void> deleteAll() {
         return groupRepository.deleteAll();
+    }
+
+    public Flux<Group> findByUsers(String user) {
+        return reactiveMongoTemplate
+                .find(Query.query(Criteria.where("users").is(user)), Group.class);
     }
 }
