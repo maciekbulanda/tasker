@@ -14,6 +14,7 @@ const TaskList = (props) => {
             "Authorization": "Bearer " + props.login.token
         }
     });
+
     useEffect(() => {
         connection.get("/api/tasks").then((response) => {
             props.addTasks(response.data);

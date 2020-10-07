@@ -19,7 +19,6 @@ public class TaskService implements TaskRepository {
 
     private final TaskRepository taskRepository;
     private final UserRepository userRepository;
-
     private final ReactiveMongoTemplate reactiveMongoTemplate;
 
     public TaskService(TaskRepository taskRepository, UserRepository userRepository, ReactiveMongoTemplate reactiveMongoTemplate) {
@@ -188,5 +187,10 @@ public class TaskService implements TaskRepository {
 
     public Flux<String> findAllTagsDistinct() {
         return reactiveMongoTemplate.findDistinct("tags", Task.class, String.class);
+    }
+
+    @Override
+    public Flux<Task> findAllByGroup(String group) {
+        return taskRepository.findAllByGroup(group);
     }
 }

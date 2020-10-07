@@ -3,17 +3,15 @@ package com.maciekbulanda.tasker.controller;
 import com.maciekbulanda.tasker.CountedTag;
 import com.maciekbulanda.tasker.documents.Task;
 import com.maciekbulanda.tasker.documents.User;
+import com.maciekbulanda.tasker.services.GroupService;
 import com.maciekbulanda.tasker.services.TaskService;
 import com.maciekbulanda.tasker.services.UserService;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.Disposable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.core.scheduler.Scheduler;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -23,21 +21,21 @@ public class TaskController {
 
     private final TaskService taskService;
     private final UserService userService;
+    private final GroupService groupService;
 
-    public TaskController(TaskService taskService, UserService userService) {
+    public TaskController(TaskService taskService, UserService userService, GroupService groupService) {
         this.taskService = taskService;
         this.userService = userService;
+        this.groupService = groupService;
     }
 
     @GetMapping
     Flux<Task> getTasks(Principal principal) {
-        return taskService.findAll().flatMap(task -> {
-            Optional<String> ownerId = Optional.ofNullable(task.getOwner());
-                return Mono.just(ownerId)
-                        .flatMap(id -> id.isPresent() ? userService.findById(id.get()) : Mono.just(new User()))
-                        .map(user -> task.withOwner(user.getUsername()))
-                        .switchIfEmpty(Mono.just(task));
-        });
+        return taskService.findAll()
+                .flatMap(task -> Mono.just(principal.getName())
+                .flatMap(userService::findByUsername) //User
+                .flatMapMany(user -> groupService.findByUsers(user.getUsername())) //Groups
+                .flatMap(group -> taskService.findAllByGroup(group.getName())));
     }
 
     @PostMapping

@@ -5,4 +5,5 @@ import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import reactor.core.publisher.Flux;
 
 public interface TaskRepository extends ReactiveMongoRepository<Task, String> {
+    Flux<Task> findAllByGroup(String group);
 }
