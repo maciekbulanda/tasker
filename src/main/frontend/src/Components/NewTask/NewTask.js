@@ -6,7 +6,7 @@ import axios from "axios";
 import * as actions from "../../Store/actions";
 import {baseUrl} from "../../common/utils";
 
-const addTask = (token, text, addTaskFun) => {
+const addTask = (token, text, group, addTaskFun) => {
     const connection = axios.create({
         baseURL: baseUrl,
         headers: {
@@ -18,7 +18,8 @@ const addTask = (token, text, addTaskFun) => {
     if (newText.length > 0) {
         let taskJson = {
             content: newText,
-            tags: tags
+            tags: tags,
+            group: group
         }
         connection.post("/api/tasks", taskJson).then((response) => {
             addTaskFun(response.data);
@@ -35,21 +36,26 @@ const separateTags = (/*String*/ inputText) => {
 const NewTask = (props) => {
     let [expanded, setExpanded] = useState(false);
     let [text, setText] = useState("");
+    let [group, setGroup] = useState("");
 
     let content = null;
     if (expanded) {
         content = (
-            <form style={{display: "flex"}} onSubmit={(e) => {
+            <form className={classes.form} onSubmit={(e) => {
                 e.preventDefault();
             }}>
                 <textarea onChange={(e) => {
                     setText(e.target.value);
-                }} rows={4} className={classes.inputArea} placeholder="Zadanie"/>
+                }} rows={4} className={[classes.inputArea, classes.fullWidth].join(" ")} placeholder="Zadanie"/>
+                <input className={classes.inputText} type={"text"} placeholder={"Grupa"} onChange={(e) => {
+                    setGroup(e.target.value);
+                }
+                }/>
                 <button
                     onClick={() => {
-                        addTask(props.login.token, text, (task) => {props.addTaskToStore(task)})
-                    }} className={classes.button} style={{marginLeft: "5px"}}>
-                    <i className="demo-icon icon-plus" style={{fontSize: "2em"}}/>
+                        addTask(props.login.token, text, group, (task) => {props.addTaskToStore(task)})
+                    }} className={[classes.button, classes.fullWidth].join(" ")}>
+                    Dodaj
                 </button>
             </form>
         );

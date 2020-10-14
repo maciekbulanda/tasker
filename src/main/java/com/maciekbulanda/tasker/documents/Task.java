@@ -10,6 +10,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Document
@@ -20,8 +21,8 @@ import java.util.Set;
 public class Task {
     @Id
     private String id;
-    private LocalDate addDate;
-    private LocalDate dueDate;
+    private LocalDateTime addDate;
+    private LocalDateTime dueDate;
     private String content;
     private String owner;
     private String assignedPerson;
@@ -36,6 +37,18 @@ public class Task {
                 this.dueDate,
                 this.content,
                 username,
+                this.assignedPerson,
+                this.group,
+                this.tags,
+                this.priority,
+                this.status);
+    }
+    public Task withAddDate(LocalDateTime localDateTime) {
+        return new Task(this.id,
+                localDateTime,
+                this.dueDate,
+                this.content,
+                this.owner,
                 this.assignedPerson,
                 this.group,
                 this.tags,

@@ -1,6 +1,7 @@
 package com.maciekbulanda.tasker.controller;
 
 import com.maciekbulanda.tasker.CountedTag;
+import com.maciekbulanda.tasker.converter.ApiTask;
 import com.maciekbulanda.tasker.documents.Task;
 import com.maciekbulanda.tasker.documents.User;
 import com.maciekbulanda.tasker.services.GroupService;
@@ -11,8 +12,9 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.security.Principal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -28,14 +30,15 @@ public class TaskController {
         this.userService = userService;
         this.groupService = groupService;
     }
-
     @GetMapping
     Flux<Task> getTasks(Principal principal) {
-        return taskService.findAll()
-                .flatMap(task -> Mono.just(principal.getName())
-                .flatMap(userService::findByUsername) //User
-                .flatMapMany(user -> groupService.findByUsers(user.getUsername())) //Groups
-                .flatMap(group -> taskService.findAllByGroup(group.getName())));
+        return Mono.just(principal.getName())
+                        .flatMap(userService::findByUsername)
+                        .flatMapMany(user -> groupService.findByUsers(user.getUsername())) //Groups
+                        .flatMap(group -> taskService.findAllByGroup(group.getName()))
+                .flatMap(task -> userService.findById(task.getOwner())
+                        .map(User::getUsername) //String username
+                        .map(task::withOwner));
     }
 
     @PostMapping
@@ -43,7 +46,9 @@ public class TaskController {
         return userService
                 .findByUsername(principal.getName())
                 .map(User::getId)
-                .flatMap(id -> taskService.insert(newTask.withOwner(id)))
+                .flatMap(id -> taskService.insert(newTask
+                        .withOwner(id)
+                        .withAddDate(LocalDateTime.now())))
                 .map(task -> task.withOwner(principal.getName()));
     }
 

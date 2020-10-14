@@ -1,12 +1,12 @@
 .button {
     box-sizing: border-box;
     display: block;
+    font-size: 14px;
     outline: none;
+    margin-bottom: 5px;
     border: 1px solid gray;
     border-radius: 5px;
-    font-size: inherit;
     padding: 8px;
-    margin: 8px 0;
     background-color: lightgray;
     color: black;
     transition: background-color 0.3s, color 0.3s;
@@ -22,13 +22,23 @@
     transition: background-color  0.3s, color 0.3s;
 }
 
+.inputText {
+    outline: none;
+    font-size: 14px;
+    margin: 0 0 5px 0;
+}
+
 .inputArea {
+    outline: none;
     box-sizing: border-box;
     font-family: inherit;
-    font-size: 0.8em;
+    font-size: 14px;
     border-radius: 5px;
     padding: 8px;
-    margin: 8px 0;
-    width: 90%;
+    margin-bottom: 5px;
     resize: vertical;
+}
+
+.inputArea:active {
+    outline: 0;
 }
