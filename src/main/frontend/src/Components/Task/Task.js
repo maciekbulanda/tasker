@@ -35,8 +35,11 @@ const Task = (props) => {
         }}>Okienko</button>
     </div>);
 
+    let addDate = new Date(props.children.addDate);
+
     return (
         <div onClick={toggleMenu} className={classes.task}>
+            <div className={classes.date}>{addDate.toLocaleDateString()} {addDate.toLocaleTimeString()}</div>
             <div className={classes.group}>{props.children.group}</div>
             <div className={classes.content}>{props.children.content}</div>
             <div className={classes.owner}>{props.children.owner}</div>
