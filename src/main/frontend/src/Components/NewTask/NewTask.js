@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from "react";
+import React, {useState} from "react";
 import {connect} from "react-redux";
 import classes from "./NewTask.module.css";
 import "../../fontello/css/fontello-embedded.css"
@@ -30,15 +30,21 @@ const addTask = (token, text, group, addTaskFun) => {
 const separateTags = (/*String*/ inputText) => {
     const pattern = /#(\S+)/g;
     const tags = inputText.match(new RegExp(pattern));
-    return {tags: tags.map(el => el.slice(1)), newText: inputText.replace(pattern, "")};
+    return {tags: tags !== null ? tags.map(el => el.slice(1)) : [], newText: inputText.replace(pattern, "")};
 }
 
 const NewTask = (props) => {
+    const addButtonHandler = () => {
+        addTask(props.login.token, text, group, (task) => {props.addTaskToStore(task)});
+        setText("");
+        setGroup("");
+        setExpanded(false);
+    }
     let [expanded, setExpanded] = useState(false);
     let [text, setText] = useState("");
     let [group, setGroup] = useState("");
 
-    let content = null;
+    let content;
     if (expanded) {
         content = (
             <form className={classes.form} onSubmit={(e) => {
@@ -46,15 +52,13 @@ const NewTask = (props) => {
             }}>
                 <textarea onChange={(e) => {
                     setText(e.target.value);
-                }} rows={4} className={[classes.inputArea, classes.fullWidth].join(" ")} placeholder="Zadanie"/>
+                }} rows={4} className={[classes.inputArea, classes.fullWidth].join(" ")} placeholder="Zadanie" value={text}/>
                 <input className={classes.inputText} type={"text"} placeholder={"Grupa"} onChange={(e) => {
                     setGroup(e.target.value);
                 }
                 }/>
                 <button
-                    onClick={() => {
-                        addTask(props.login.token, text, group, (task) => {props.addTaskToStore(task)})
-                    }} className={[classes.button, classes.fullWidth].join(" ")}>
+                    onClick={addButtonHandler} className={[classes.button, classes.fullWidth].join(" ")}>
                     Dodaj
                 </button>
             </form>
@@ -67,9 +71,9 @@ const NewTask = (props) => {
         )
     }
     return (
-        <Fragment>
+        <div className={classes.newTask}>
             {content}
-        </Fragment>
+        </div>
     )
 }
 

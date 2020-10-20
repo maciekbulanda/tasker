@@ -1,6 +1,6 @@
 .tag {
+    float: left;
     font-size: 0.8em;
-    flex: none;
     margin: 3px;
     padding: 1px 3px;
     /*background-color: #f2f2f2;*/
