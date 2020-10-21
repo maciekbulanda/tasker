@@ -1,4 +1,5 @@
 .task {
+    border: 0.5px solid #ccc;
     background-color: #fff;
     margin-bottom : 10px;
     padding: 5px;

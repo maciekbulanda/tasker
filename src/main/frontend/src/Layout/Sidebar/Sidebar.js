@@ -40,15 +40,15 @@ const Sidebar = (props) => {
 
     return (
         <div className={classes.sidebar}>
-            <div>
-                <p>Grupy</p>
+            <div className={classes.box}>
+                <div className={classes.title}>Grupy</div>
                 {groups.map((val, index) => (<Tag
                     key={index}
                     active={props.filterState.group === val}>{{_id: val}}</Tag>)
                 )}
             </div>
-            <div>
-                <p>Tagi</p>
+            <div className={classes.box}>
+                <div className={classes.title}>Tagi</div>
                 {tags.map((val, index) => (<Tag
                     key={index}
                     active={props.filterState.tags.includes(val)}
