@@ -15,6 +15,15 @@ const TaskList = (props) => {
         }
     });
 
+    function containsTag(task, tags) {
+        if (tags.length === 0) return true;
+        for(const tag of tags) {
+            if (task.tags.includes(tag._id))
+                return true;
+        }
+        return false;
+    }
+
     useEffect(() => {
         connection.get("/api/tasks").then((response) => {
             props.addTasks(response.data);
@@ -24,7 +33,9 @@ const TaskList = (props) => {
     let tasklist;
 
     if (props.tasks.length > 0) {
-        tasklist = props.tasks.map((item, index) => <Task key={index}>{item}</Task>);
+        tasklist = props.tasks
+            .filter((task) => containsTag(task, props.filter.tags))
+            .map((item) => <Task key={item.id}>{item}</Task>);
     } else {
         tasklist = "Task list is empty";
     }
@@ -42,7 +53,8 @@ const TaskList = (props) => {
 const mapStateToProps = state => {
     return {
         login: state.login,
-        tasks: state.tasks
+        tasks: state.tasks,
+        filter: state.filter
     }
 }
 
