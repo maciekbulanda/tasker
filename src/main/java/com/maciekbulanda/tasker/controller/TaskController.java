@@ -32,12 +32,11 @@ public class TaskController {
     }
     @GetMapping
     Flux<Task> getTasks(Principal principal) {
-        return Mono.just(principal.getName())
-                        .flatMap(userService::findByUsername)
-                        .flatMapMany(user -> groupService.findByUsers(user.getUsername())) //Groups
-                        .flatMap(group -> taskService.findAllByGroup(group.getName()))
+        return userService.findByUsername(principal.getName())
+                        .flatMapMany(user -> groupService.findByUsers(user.getId()))
+                        .flatMap(group -> taskService.findAllByGroup(group.getId()))
                 .flatMap(task -> userService.findById(task.getOwner())
-                        .map(User::getUsername) //String username
+                        .map(User::getUsername)
                         .map(task::withOwner));
     }
 

@@ -1,0 +1,25 @@
+.id, .name, .admins, .users {
+    line-height: 20px;
+    height: 20px;
+    padding: 5px;
+    margin: 0;
+    float: left;
+    border-bottom: 1px solid gray;
+}
+
+.id {
+    width: 150px;
+    font-size: 10px;
+}
+
+.admins {
+    width: 200px;
+}
+
+.users {
+    width: 200px;
+}
+
+.name {
+    width: 250px;
+}

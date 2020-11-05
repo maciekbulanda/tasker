@@ -37,7 +37,7 @@ const TaskList = (props) => {
             .filter((task) => containsTag(task, props.filter.tags))
             .map((item) => <Task key={item.id}>{item}</Task>);
     } else {
-        tasklist = "Task list is empty";
+        tasklist = "Task list is empty"
     }
 
     return (

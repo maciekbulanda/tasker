@@ -1,6 +1,7 @@
 package com.maciekbulanda.tasker.services;
 
 import com.maciekbulanda.tasker.documents.Group;
+import com.maciekbulanda.tasker.documents.User;
 import com.maciekbulanda.tasker.repository.GroupRepository;
 import org.reactivestreams.Publisher;
 import org.springframework.data.domain.Example;

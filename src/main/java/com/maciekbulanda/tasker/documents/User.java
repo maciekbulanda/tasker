@@ -1,5 +1,6 @@
 package com.maciekbulanda.tasker.documents;
 
+import com.maciekbulanda.tasker.dto.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
@@ -23,7 +24,6 @@ public class User implements UserDetails {
     private String password;
     private boolean enabled;
     private Set<String> roles;
-    private Set<String> groups;
 
     public String getId() {
         return id;
@@ -37,6 +37,18 @@ public class User implements UserDetails {
                 .collect(Collectors.toSet());
     }
 
+    private void setAuthorities(Set<String> authorities) {
+        this.roles = authorities;
+    }
+
+    public UserDTO toUserDTO() {
+        return new UserDTO(this.id,
+                this.username,
+                this.password,
+                this.enabled,
+                this.roles);
+    }
+
     @Override
     public String getPassword() {
         return password;
@@ -45,14 +57,6 @@ public class User implements UserDetails {
     @Override
     public String getUsername() {
         return username;
-    }
-
-    public Set<String> getGroups() {
-        return groups;
-    }
-
-    public void setGroups(Set<String> groups) {
-        this.groups = groups;
     }
 
     @Override

@@ -18,6 +18,10 @@
     margin-bottom: 10px;
 }
 
+.datalist {
+    height: 50px;
+}
+
 .fullWidth {
     width: 100%;
 }
@@ -47,4 +51,8 @@
 
 .inputArea:active {
     outline: 0;
+}
+
+.form {
+    transition: height 1s;
 }

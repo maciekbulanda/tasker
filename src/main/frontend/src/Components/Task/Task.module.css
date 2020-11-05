@@ -46,10 +46,31 @@
 }
 
 .menu {
-    margin-top: 5px;
-    display: flex;
+    overflow: hidden;
+}
+
+.menuon {
+    height: 36px;
+    transition: height 0.1s ease-out;
+}
+
+.menuoff {
+    height: 0;
+    transition: height 0.1s ease-out;
 }
 
 .menuitem {
-    margin-right: 5px;
+    float: left;
+    box-sizing: border-box;
+    margin: 5px 5px 5px 5px;
+    height: 28px;
+    padding: 3px;
+    border-radius: 3px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: border 0.2s ease;
+}
+
+.menuitem:hover {
+    border: 1px solid #888;
 }

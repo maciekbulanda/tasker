@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Set;
@@ -20,4 +21,11 @@ public class Group {
     private String name;
     private Set<String> admins;
     private Set<String> users;
+
+    public Group withUsers(Set<String> users) {
+        return new Group(this.id,
+                this.name,
+                this.admins,
+                users);
+    }
 }

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {connect} from "react-redux";
 import classes from "./NewTask.module.css";
 import "../../fontello/css/fontello-embedded.css"
@@ -6,13 +6,7 @@ import axios from "axios";
 import * as actions from "../../Store/actions";
 import {baseUrl} from "../../common/utils";
 
-const addTask = (token, text, group, addTaskFun) => {
-    const connection = axios.create({
-        baseURL: baseUrl,
-        headers: {
-            "Authorization": "Bearer " + token
-        }
-    });
+const addTask = (connection, text, group, addTaskFun) => {
     let {tags, newText} = separateTags(text);
 
     if (newText.length > 0) {
@@ -34,15 +28,32 @@ const separateTags = (/*String*/ inputText) => {
 }
 
 const NewTask = (props) => {
+
+    const connection = axios.create({
+        baseURL: baseUrl,
+        headers: {
+            "Authorization": "Bearer " + props.login.token
+        }
+    });
+
     const addButtonHandler = () => {
-        addTask(props.login.token, text, group, (task) => {props.addTaskToStore(task)});
+        addTask(connection, text, group, (task) => {props.addTaskToStore(task)});
         setText("");
         setGroup("");
         setExpanded(false);
     }
+
     let [expanded, setExpanded] = useState(false);
     let [text, setText] = useState("");
     let [group, setGroup] = useState("");
+    let [groupList, setGroupList] = useState([]);
+
+    useEffect(() => {
+        connection.get("api/groups").then(resp => {
+            setGroupList(resp.data);
+        }) // eslint-disable-next-line
+    },[])
+
 
     let content;
     if (expanded) {
@@ -53,10 +64,13 @@ const NewTask = (props) => {
                 <textarea onChange={(e) => {
                     setText(e.target.value);
                 }} rows={4} className={[classes.inputArea, classes.fullWidth].join(" ")} placeholder="Zadanie" value={text}/>
-                <input className={classes.inputText} type={"text"} placeholder={"Grupa"} onChange={(e) => {
+                <input className={classes.inputText} list={"groups"} placeholder={"Grupa"} onChange={(e) => {
                     setGroup(e.target.value);
                 }
                 }/>
+                <datalist id={"groups"} className={classes.datalist}>
+                    {groupList.map(group => (<option key={group.id} value={group.id}>{group.name}</option>))}
+                </datalist>
                 <button
                     onClick={addButtonHandler} className={[classes.button, classes.fullWidth].join(" ")}>
                     Dodaj
