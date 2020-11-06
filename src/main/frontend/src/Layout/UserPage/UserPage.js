@@ -3,6 +3,7 @@ import axios from "axios";
 import {baseUrl} from "../../common/utils";
 import {connect} from "react-redux";
 import GroupList from "../../Components/GroupList/GroupList";
+import EditableRow from "../../Components/EditableRow/EditableRow";
 
 const UserPage = (props) => {
     const connection = axios.create({
@@ -24,6 +25,7 @@ const UserPage = (props) => {
     return (
         <div>
             <GroupList groups={groups} users={users}/>
+            <EditableRow data={["aaa", "bbb", "ccc"]}/>
         </div>
                 //<div>{groups.map((group, index) => <div key={index}>{group}</div>)}</div>
     );

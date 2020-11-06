@@ -55,4 +55,16 @@ public class Task {
                 this.priority,
                 this.status);
     }
+    public Task withGroup(String group) {
+        return new Task(this.id,
+                this.addDate,
+                this.dueDate,
+                this.content,
+                this.owner,
+                this.assignedPerson,
+                group,
+                this.tags,
+                this.priority,
+                this.status);
+    }
 }

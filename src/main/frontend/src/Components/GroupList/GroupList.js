@@ -6,7 +6,7 @@ const GroupList = (props) => {
 
     useEffect(() => {
         let usersMap = new Map();
-        props.users.map(user => usersMap.set(user.id, user.username));
+        props.users.forEach(user => usersMap.set(user.id, user.username));
         setGroups(props.groups.map(group => {
             let users = group.users.map(user => usersMap.get(user));
             let newGroup = {...group};
@@ -18,7 +18,6 @@ const GroupList = (props) => {
 
     return (
         <>
-            {console.log(groupsWithUsernames)}
             {groupsWithUsernames.map(group => <Group key={group.id}>{group}</Group>)}
         </>
     )

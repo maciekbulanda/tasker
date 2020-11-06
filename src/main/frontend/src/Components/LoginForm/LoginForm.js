@@ -26,7 +26,7 @@ const LoginForm = (props) => {
                    value={user}/>
             <input onChange={onPassChange} className={classes.pass} type={"password"} placeholder={"hasło"}
                    value={pass}/>
-            <input type={"submit"} />
+            <input className={classes.submit} type={"submit"} />
         </form>
     )
 

@@ -3,15 +3,7 @@
     margin: 0 auto;
 }
 
-.user, .pass {
-
-}
-
-.info {
-    padding: 10px 0;
-}
-
-input {
+.user, .pass, .submit {
     box-sizing: border-box;
     display: block;
     outline: none;
@@ -23,13 +15,17 @@ input {
     width: 100%;
 }
 
-input[type=submit] {
+.info {
+    padding: 10px 0;
+}
+
+input[type=submit].submit {
     background-color: lightgray;
     color: black;
     transition: background-color 0.3s, color 0.3s;
 }
 
-input[type=submit]:hover{
+input[type=submit]:hover.submit{
     background-color: gray;
     color: white;
     transition: background-color  0.3s, color 0.3s;

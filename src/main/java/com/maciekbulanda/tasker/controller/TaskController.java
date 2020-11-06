@@ -1,7 +1,6 @@
 package com.maciekbulanda.tasker.controller;
 
 import com.maciekbulanda.tasker.CountedTag;
-import com.maciekbulanda.tasker.converter.ApiTask;
 import com.maciekbulanda.tasker.documents.Task;
 import com.maciekbulanda.tasker.documents.User;
 import com.maciekbulanda.tasker.services.GroupService;
@@ -12,7 +11,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.security.Principal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -30,14 +28,15 @@ public class TaskController {
         this.userService = userService;
         this.groupService = groupService;
     }
+
     @GetMapping
     Flux<Task> getTasks(Principal principal) {
         return userService.findByUsername(principal.getName())
-                        .flatMapMany(user -> groupService.findByUsers(user.getId()))
-                        .flatMap(group -> taskService.findAllByGroup(group.getId()))
-                .flatMap(task -> userService.findById(task.getOwner())
-                        .map(User::getUsername)
-                        .map(task::withOwner));
+                .flatMapMany(user -> groupService.findByUsers(user.getId()))
+                .flatMap(group -> taskService.findAllByGroup(group.getId()))
+                .flatMap(task -> Mono.just(task)
+                        .zipWith(groupService.findById(task.getGroup()), (task1, group) -> task1.withGroup(group.getName()))
+                        .zipWith(userService.findById(task.getOwner()), (task1, user) -> task1.withOwner(user.getUsername())));
     }
 
     @PostMapping
