@@ -1,18 +1,7 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
+import classes from "./EditableRow.module.css"
 
 const EditableDisplay = (props) => {
-    const inputStyle = {
-        display : "inline-block",
-        borderTop : "none",
-        borderLeft : "none",
-        borderRight : "none",
-        borderBottom : "1px solid gray",
-        outline : "none",
-        fontSize : "inherit",
-        width : "100px",
-        padding : "5px"
-    }
-
     const editOn = props.editOn;
     let children = props.children;
     const changeHandler = (e) => {
@@ -20,9 +9,9 @@ const EditableDisplay = (props) => {
     }
     let comp;
     if (editOn) {
-        comp = <input style={inputStyle} onChange={changeHandler} type={"text"} value={children}/>
+        comp = <input className={[classes.editabledisplay, props.class].join(" ")} onChange={changeHandler} type={"text"} value={children}/>
     } else {
-        comp = <div style={inputStyle}>{children}</div>
+        comp = <div className={[classes.editabledisplay, props.class].join(" ")}>{children}</div>
     }
     return (
         <>
@@ -33,7 +22,12 @@ const EditableDisplay = (props) => {
 
 const EditableRow = (props) => {
     let [edit, setEdit] = useState(false);
-    let [values, setValues] = useState(props.data);
+    let [values, setValues] = useState([]);
+
+    useEffect(() => {
+        setValues(props.data);
+    }, [props.data])
+
     const dblClickHandler = () => {
         setEdit(true);
     }
@@ -44,12 +38,14 @@ const EditableRow = (props) => {
     const changeHandler = (index, val) => {
         setValues([...values.slice(0, index), val, ...values.slice(index + 1)])
     }
-    return (
-        <div onDoubleClick={dblClickHandler}>
-            {values.map((el, index) => (<EditableDisplay editOn={edit}
-                                              onChange={(val) => changeHandler(index, val)}>{el}</EditableDisplay>))}
-            {edit ? (<button onClick={okHandler}>OK</button>) : null}
 
+    return (
+        <div style={{display: "flex", alignItems:"flex-start"}} onDoubleClick={dblClickHandler}>
+            <EditableDisplay class={classes.id} onChange={(val) => changeHandler(0, val)}>{values[0]}</EditableDisplay>
+            <EditableDisplay class={classes.name} editOn={edit} onChange={(val) => changeHandler(1, val)}>{values[1]}</EditableDisplay>
+            <EditableDisplay class={classes.admins} editOn={edit} onChange={(val) => changeHandler(2, val)}>{values[2]}</EditableDisplay>
+            <EditableDisplay class={classes.users} editOn={edit} onChange={(val) => changeHandler(3, val)}>{values[3]}</EditableDisplay>
+            {edit ? (<button onClick={okHandler}>OK</button>) : null}
         </div>
     )
 }

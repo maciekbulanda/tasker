@@ -1,0 +1,27 @@
+.editabledisplay {
+    height: 26px;
+    line-height: 22px;
+    box-sizing: border-box;
+    display: inline-block;
+    font-family: inherit;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid gray;
+    outline: none;
+    font-size: inherit;
+    padding: 2px
+}
+
+.id {
+    width: 150px;
+    font-size: 10px;
+}
+
+.name {
+    width: 100px;
+}
+
+.admins .users {
+    width: 100px;
+}
